@@ -17,10 +17,11 @@ cv2.imwrite("images/high_res_y_channel.png", yuv)
 
 y_channel = yuv[:, :, 0]
 
+
+
 # If you want to see the Y channel as an image:
 cv2.imshow('Y Channel', y_channel)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
-# Optionally, you can save the Y channel as an image
-cv2.imwrite('y_channel.png', y_channel)
+cv2.imwrite('images/y_channel.png', y_channel)
