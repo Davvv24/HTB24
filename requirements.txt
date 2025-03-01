@@ -1,5 +1,6 @@
 pillow
 matplotlib
-pytorch
+torch
 pandas
 numpy
+rasterio
