@@ -1,23 +1,8 @@
 import cv2
 import rasterio
 import numpy as np
-# Open the TIFF file with rasterio
-with rasterio.open('images/20230215_SE2B_CGG_GBR_MS4_L3_BGRN.tif') as src:
-    # Read the image data as a numpy array (first band)
-    img_data = src.read(1)
 
-    # If the image has multiple bands (e.g. RGB), you might want to read all bands:
-    # img_data = src.read([1, 2, 3])  # Read Red, Green, and Blue channels
 
-    # Convert the image to a format OpenCV can handle (e.g. 8-bit)
-    img_data = np.uint8(img_data)
-
-    # If it's a 1-band image and you want to display it as grayscale, proceed:
-    # Display the image using OpenCV
-    cv2.imshow('TIFF Image', img_data)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-'''
 # You can also work with the affine transformation and CRS if needed
 ## get all color codes
 codes = [x for x in dir(cv2) if x.startswith("COLOR_")]
@@ -67,4 +52,3 @@ if dataset is None:
     print("Failed to open the file.")
 else:
     print(f"File opened successfully: {dataset.RasterXSize}x{dataset.RasterYSize}")
-'''
