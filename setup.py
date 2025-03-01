@@ -7,6 +7,8 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 REQUIREMENTS = [
     "matplotlib", 
     "numpy"
+    "matplotlib", 
+    "numpy"
     ]
 
 
