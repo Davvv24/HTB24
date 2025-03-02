@@ -1,9 +1,10 @@
 import cv2
 import numpy as np
 
-image_path = 'images/high-res.jpg'
+image_path = 'images/map_enlarged.jpg'
 lidar_path = 'images/image_converted.png'
 scale_factor = 3
+
 
 def show_image(image):
     window_width = 800
@@ -47,22 +48,51 @@ def improve_accuracy(lidar_path, image_path, d, sigmaColor, sigmaSpace, end):
 def convert_lidar(lidar_path):
     lidar_image = cv2.imread(lidar_path, cv2.IMREAD_GRAYSCALE)
 
-    sobel_x = cv2.Sobel(lidar_image, cv2.CV_64F, 1, 0, ksize=3)
-    sobel_y = cv2.Sobel(lidar_image, cv2.CV_64F, 0, 1, ksize=3)
-
-    # Calculate the magnitude of the gradients
-    sobel_edges = cv2.magnitude(sobel_x, sobel_y)
-
-    # Convert the magnitude to a valid image format (0-255 range)
-    sobel_edges = np.uint8(np.absolute(sobel_edges))
 
     # Normalize the image to the 0-255 range
     normalized_lidar = cv2.normalize(lidar_image, None, 0, 255, cv2.NORM_MINMAX)
     normalized_lidar = normalized_lidar.astype(np.uint8)  # Ensure it's in uint8 format for image display
 
+    blurred_image = cv2.GaussianBlur(normalized_lidar, (21, 21), 0)
 
-    return sobel_edges
 
+    edges = cv2.Canny(blurred_image, threshold1=10, threshold2=10)
+
+
+    return edges
+
+
+def method_1(image_Y, image_UV):
+    # Resize image_UV to match the shape of image_Y
+    image_UV_resized = cv2.resize(image_UV, (image_Y.shape[1], image_Y.shape[0]), interpolation=cv2.INTER_LINEAR)
+
+    # Apply joint bilateral filter using resized UV and Y channels
+    enhanced_image = cv2.ximgproc.jointBilateralFilter(image_Y, image_UV_resized, d=9, sigmaColor=75, sigmaSpace=75)
+
+    # Combine the enhanced image with the original UV image using weighted addition
+    final_image = cv2.addWeighted(image_UV_resized, 0.7, enhanced_image, 0.3, 0)
+
+    # Save the result
+    cv2.imwrite('images/final_image.jpg', final_image)
+
+    return final_image
+
+
+
+def method_2(lidar_path, image_path):
+    lidar = cv2.imread(lidar_path)
+    image = cv2.imread(image_path)
+    resized_image = cv2.resize(image, (lidar.shape[1], lidar.shape[0]), interpolation=cv2.INTER_LINEAR)
+
+    first_block = resized_image[0:50, 0:50]
+    second_block = lidar[0:50, 0:50]
+
+    show_image(first_block)
+    show_image(second_block)
+
+
+
+method_2(lidar_path, image_path)
 #show_image(improve_accuracy_second(lidar_path, image_path, False))
 
 #show_image(improve_accuracy(lidar_path, image_path, 2 * scale_factor, 80, scale_factor,False))
@@ -70,5 +100,5 @@ def convert_lidar(lidar_path):
 #show_image(improve_accuracy(lidar_path, "images/smoothed_image.jpg", 2 * scale_factor, 80, scale_factor, False))
 #show_image(improve_accuracy(lidar_path, "images/smoothed_image.jpg", 2 * scale_factor, 80, scale_factor, True))
 
-show_image(convert_lidar(lidar_path))
+#show_image(convert_lidar(lidar_path))
 
