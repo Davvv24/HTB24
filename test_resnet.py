@@ -196,13 +196,13 @@ def add_legend(grid_image, class_colours, tile_size=50, legend_tile_size=40):
 image_path = "2750_tests/map_enlarged.jpg"
 # predicted_class, confidence = predict_tile(image_path, model, class_names)
 # print(f"Predicted Land Use: {predicted_class} ({confidence*100:.2f}%)")
-predictions = predict_tiles(image_path, model, class_names, 1000)
-grid_img = create_prediction_grid(predictions, class_colours, grid_size=5, tile_size=100)
-# grid_img.show()
-# grid_img.save("prediction_grid.png")
-grid_with_legend = add_legend(grid_img, class_colours)
-grid_with_legend.show()
-grid_with_legend.save("prediction_grid_with_legend.png")
+predictions = predict_tiles(image_path, model, class_names, 500)
+grid_img = create_prediction_grid(predictions, class_colours, grid_size=10, tile_size=100)
+grid_img.show()
+grid_img.save("TEST_prediction_grid.png")
+# grid_with_legend = add_legend(grid_img, class_colours)
+# grid_with_legend.show()
+# grid_with_legend.save("prediction_grid_with_legend.png")
 
 
 
