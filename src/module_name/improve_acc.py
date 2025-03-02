@@ -33,7 +33,7 @@ def apply_lidar_smoothing(image_path, lidar_path, output_path='images/white_imag
     white_image = np.full((height, width, 3), 255, dtype=np.uint8)
     full_width = image[:, :width]
 
-    for row in range(500):  # Process the first 500 rows
+    for row in range(5000):  # Process the first 500 rows
         print(f"Processing row {row}")
         column = 0
 
@@ -89,7 +89,7 @@ def rotate_image(image_path, output_path, rotation_flag=cv2.ROTATE_90_CLOCKWISE)
     cv2.imwrite(output_path, rotated_image)
 
 
-def remove_jagged_streaks(image, kernel_size=2):
+def remove_jagged_streaks(image, kernel_size=5):
     """
     Apply morphological operations to clean up jagged streaks.
 
@@ -117,11 +117,22 @@ def grab_block(image):
 # Optionally: Display the processed images
 white_image = cv2.imread('images/white_image.jpg')
 
-final_image = remove_jagged_streaks(white_image)
+final_image = white_image
 
-final_image = bilateral_filter_smoothing(final_image)
+final_image = remove_jagged_streaks(final_image)
 
+cv2.imwrite('images/MEOWMEOW.jpg', final_image)
 
+apply_lidar_smoothing('images/MEOWMEOW.jpg', 'images/image_converted.png', output_path='images/white_image.jpg')
+
+# Optionally: Display the processed images
+white_image = cv2.imread('images/white_image.jpg')
+
+final_image = white_image
+
+final_image = remove_jagged_streaks(final_image)
+
+cv2.imwrite('images/MEOWMEOW.jpg', final_image)
 
 cv2.imshow('Smoothed and Rotated Image', grab_block(final_image))
 cv2.waitKey(0)
