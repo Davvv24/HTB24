@@ -92,7 +92,7 @@ def pixel_to_latlon(pixel_x, pixel_y, zoom):
 # Configuration
 # -----------------------------
 tfw_file_path = "Viridien/Data/DSM_TQ0075_P_12757_20230109_20230315.tfw"
-tif_image_path = "Viridien/Data/20230215-SE2B-CGG-GBR-MS3-L3-RGB-preview.jpg"
+tif_image_path = "Viridien/Data/DSM_TQ0075_P_12757_20230109_20230315.tif"
 converted_png_path = "Viridien/Data/DSM_TQ0075_P_12757_20230109_20230315.png"
 
 api_key = "AIzaSyDZu4b6tIrbl7OTXs8mNVexCsCV6rjdGvs"
